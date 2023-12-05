@@ -7,8 +7,8 @@
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "eslint --ext .ts src/**/*.ts",
     "lint:prettier": "prettier --check src/**/*.ts",
-    "seed": "ts-node prisma/seed.ts",
-    "gui": "prisma studio"
+    "db:seed": "ts-node prisma/seed.ts",
+    "db:gui": "prisma studio"
   },
   "repository": {
     "type": "git",
