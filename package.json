@@ -4,12 +4,12 @@
   "description": "",
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
-    "lint": "npm run lint:eslint && npm run lint:prettier",
-    "lint:eslint": "eslint --ext .ts src/**/*.ts",
-    "lint:prettier": "prettier --check src/**/*.ts",
     "db:migrate": "prisma migrate dev --name init",
     "db:seed": "ts-node prisma/seed.ts",
-    "db:gui": "prisma studio"
+    "db:gui": "prisma studio",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "lint:eslint": "eslint --ext .ts src/**/*.ts",
+    "lint:prettier": "prettier --check src/**/*.ts"
   },
   "repository": {
     "type": "git",
