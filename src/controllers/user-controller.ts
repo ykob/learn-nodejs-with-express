@@ -35,4 +35,29 @@ router.post("/", async (req: Request, res: Response) => {
   res.json({ user });
 });
 
+router.put("/:id", async (req: Request, res: Response) => {
+  const { email, name } = req.body;
+  const user = await prisma.user.update({
+    where: {
+      id: req.params?.id,
+    },
+    data: {
+      email,
+      name,
+    },
+  });
+
+  res.json({ user });
+});
+
+router.delete("/:id", async (req: Request, res: Response) => {
+  const user = await prisma.user.delete({
+    where: {
+      id: req.params?.id,
+    },
+  });
+
+  res.json({ user });
+});
+
 export default router;
