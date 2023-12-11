@@ -1,21 +1,23 @@
 import { genSaltSync, hashSync } from "bcryptjs";
 import { Request, Response, Router } from "express";
-import { prisma } from "../db";
+import {
+  createUser,
+  deleteUser,
+  findUserById,
+  findUsers,
+  updateUser,
+} from "./users.services";
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
-  const users = await prisma.user.findMany();
+router.get("/", async (_req: Request, res: Response) => {
+  const users = await findUsers();
 
   res.json({ users });
 });
 
 router.get("/:id", async (req: Request, res: Response) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      id: req.params?.id,
-    },
-  });
+  const user = await findUserById(req.params?.id);
 
   res.json({ user });
 });
@@ -23,38 +25,20 @@ router.get("/:id", async (req: Request, res: Response) => {
 router.post("/", async (req: Request, res: Response) => {
   const { email, name, password } = req.body;
   const hashedPassword = await hashSync(password, genSaltSync(10));
-  const user = await prisma.user.create({
-    data: {
-      email,
-      name,
-      password: hashedPassword,
-    },
-  });
+  const user = await createUser(email, name, hashedPassword);
 
   res.json({ user });
 });
 
 router.put("/:id", async (req: Request, res: Response) => {
   const { email, name } = req.body;
-  const user = await prisma.user.update({
-    where: {
-      id: req.params?.id,
-    },
-    data: {
-      email,
-      name,
-    },
-  });
+  const user = await updateUser(req.params?.id, email, name);
 
   res.json({ user });
 });
 
 router.delete("/:id", async (req: Request, res: Response) => {
-  const user = await prisma.user.delete({
-    where: {
-      id: req.params?.id,
-    },
-  });
+  const user = await deleteUser(req.params?.id);
 
   res.json({ user });
 });
