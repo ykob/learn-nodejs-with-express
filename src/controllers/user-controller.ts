@@ -1,9 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import { genSaltSync, hashSync } from "bcryptjs";
-import { Request, Response, Router } from "express";
-
-const prisma = new PrismaClient();
-const router = Router();
+import { Request, Response } from "express";
+import { prisma } from "../db";
+import { router } from "../router";
 
 router.get("/", async (req: Request, res: Response) => {
   const users = await prisma.user.findMany();
