@@ -27,16 +27,14 @@ export const findUserByEmail = async (email: string) => {
   return user;
 };
 
-export const createUser = async (
+export const createUserByEmailAndPassword = async (
   email: string,
-  name: string,
   password: string
 ) => {
   const hashedPassword = await hashSync(password, genSaltSync(10));
   const user = await prisma.user.create({
     data: {
       email,
-      name,
       password: hashedPassword,
     },
   });
@@ -44,14 +42,13 @@ export const createUser = async (
   return user;
 };
 
-export const updateUser = async (id: string, email: string, name: string) => {
+export const updateUser = async (id: string, email: string) => {
   const user = await prisma.user.update({
     where: {
       id,
     },
     data: {
       email,
-      name,
     },
   });
 

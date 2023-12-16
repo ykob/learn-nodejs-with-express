@@ -1,7 +1,7 @@
 import { genSaltSync, hashSync } from "bcryptjs";
 import { Request, Response, Router } from "express";
 import {
-  createUser,
+  createUserByEmailAndPassword,
   deleteUser,
   findUserById,
   findUsers,
@@ -23,16 +23,16 @@ router.get("/:id", async (req: Request, res: Response) => {
 });
 
 router.post("/", async (req: Request, res: Response) => {
-  const { email, name, password } = req.body;
+  const { email, password } = req.body;
   const hashedPassword = await hashSync(password, genSaltSync(10));
-  const user = await createUser(email, name, hashedPassword);
+  const user = await createUserByEmailAndPassword(email, hashedPassword);
 
   res.json({ user });
 });
 
 router.put("/:id", async (req: Request, res: Response) => {
-  const { email, name } = req.body;
-  const user = await updateUser(req.params?.id, email, name);
+  const { email } = req.body;
+  const user = await updateUser(req.params?.id, email);
 
   res.json({ user });
 });
