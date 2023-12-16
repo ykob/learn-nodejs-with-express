@@ -1,7 +1,7 @@
 import { hashToken } from "../../utils/hash-token";
 import { prisma } from "../../utils/prisma";
 
-export const addRefreshToken = ({
+export const addRefreshTokenToWhitelist = ({
   jti,
   refreshToken,
   userId,

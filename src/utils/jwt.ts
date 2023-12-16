@@ -1,22 +1,21 @@
-import { Prisma } from "@prisma/client";
 import jwt from "jsonwebtoken";
-import { env } from "./env";
+import { env } from "../env";
 
-export const generateAccessToken = (user: Prisma.UserSelect) => {
-  return jwt.sign({ user: user.id }, env.JWT_ACCESS_SECRET, {
+export const generateAccessToken = (userId: string) => {
+  return jwt.sign({ user: userId }, env.JWT_ACCESS_SECRET, {
     expiresIn: "5m",
   });
 };
 
-export const generateRefreshToken = (user: Prisma.UserSelect, jti: string) => {
-  return jwt.sign({ user: user.id, jti }, env.JWT_REFRESH_SECRET, {
+export const generateRefreshToken = (userId: string, jti: string) => {
+  return jwt.sign({ user: userId, jti }, env.JWT_REFRESH_SECRET, {
     expiresIn: "8h",
   });
 };
 
-export const generateTokens = (user: Prisma.UserSelect, jti: string) => {
-  const accessToken = generateAccessToken(user);
-  const refreshToken = generateRefreshToken(user, jti);
+export const generateTokens = (userId: string, jti: string) => {
+  const accessToken = generateAccessToken(userId);
+  const refreshToken = generateRefreshToken(userId, jti);
 
   return { accessToken, refreshToken };
 };
