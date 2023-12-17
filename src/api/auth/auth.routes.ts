@@ -13,6 +13,7 @@ import {
   addRefreshTokenToWhitelist,
   deleteRefreshToken,
   findRefreshToken,
+  revokeTokens,
 } from "./auth.services";
 
 const router = express.Router();
@@ -138,6 +139,17 @@ router.post("/refresh-token", async (req, res, next) => {
     });
 
     res.json({ accessToken, refreshToken: newRefreshToken });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/revoke-refresh-token", async (req, res, next) => {
+  try {
+    const { userId } = req.body;
+
+    await revokeTokens(userId);
+    res.json({ message: `Tokens revoked for user with id #${userId}.` });
   } catch (error) {
     next(error);
   }
