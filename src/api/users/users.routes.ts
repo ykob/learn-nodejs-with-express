@@ -1,5 +1,6 @@
 import { genSaltSync, hashSync } from "bcryptjs";
 import { Request, Response, Router } from "express";
+import { isAuthenticated } from "../../middlewares";
 import {
   createUserByEmailAndPassword,
   deleteUser,
@@ -10,7 +11,7 @@ import {
 
 const router = Router();
 
-router.get("/", async (_req: Request, res: Response) => {
+router.get("/", isAuthenticated, async (_req: Request, res: Response) => {
   const users = await findUsers();
 
   res.json({ users });
