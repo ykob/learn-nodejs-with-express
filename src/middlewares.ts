@@ -16,9 +16,8 @@ export const isAuthenticated = (
 
   try {
     const token = authorization.split(" ")[1];
-    const payload = verify(token, env.JWT_ACCESS_SECRET);
 
-    console.log(payload);
+    verify(token, env.JWT_ACCESS_SECRET);
   } catch (err) {
     res.status(401);
     if (err instanceof TokenExpiredError) {
