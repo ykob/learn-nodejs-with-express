@@ -17,13 +17,13 @@ router.get("/", isAuthenticated, async (_req: Request, res: Response) => {
   res.json({ users });
 });
 
-router.get("/:id", async (req: Request, res: Response) => {
+router.get("/:id", isAuthenticated, async (req: Request, res: Response) => {
   const user = await findUserById(req.params?.id);
 
   res.json({ user });
 });
 
-router.post("/", async (req: Request, res: Response) => {
+router.post("/", isAuthenticated, async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const hashedPassword = await hashSync(password, genSaltSync(10));
   const user = await createUserByEmailAndPassword(email, hashedPassword);
@@ -31,14 +31,14 @@ router.post("/", async (req: Request, res: Response) => {
   res.json({ user });
 });
 
-router.put("/:id", async (req: Request, res: Response) => {
+router.put("/:id", isAuthenticated, async (req: Request, res: Response) => {
   const { email } = req.body;
   const user = await updateUser(req.params?.id, email);
 
   res.json({ user });
 });
 
-router.delete("/:id", async (req: Request, res: Response) => {
+router.delete("/:id", isAuthenticated, async (req: Request, res: Response) => {
   const user = await deleteUser(req.params?.id);
 
   res.json({ user });
